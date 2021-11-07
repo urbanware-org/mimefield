@@ -87,6 +87,6 @@ You can contact me by sending an email to [dev@urbanware.org](mailto:dev@urbanwa
 
 ## Useless facts
 
-*   The project name *MIMEfield* is a allusion to "mine field".
+*   The project name *MIMEfield* is an allusion to "mine field".
 
 [Top](#mimefield-)
