@@ -1,0 +1,68 @@
+
+README (MIMEfield)
+
+    Project
+
+        MIMEfield
+        Version 1.0.0
+        Copyright (C) 2021 by Ralf Kilian
+
+        GitHub: https://github.com/urbanware-org/mimefield
+        GitLab: https://gitlab.com/urbanware-org/mimefield
+
+    Definition
+
+        The MIMEfield project is a simple tool to determine if the extension
+        of a file matches with the expected MIME type.
+
+    License
+
+        This project is distributed under the MIT License. You should have
+        received a copy of the license along with this program (see 'LICENSE'
+        file). If not, you can find the license terms here:
+
+            https://opensource.org/licenses/MIT
+
+    Requirements
+
+        Python framework
+
+            In order to run the latest version of MIMEfield, the Python 3.x
+            framework (version 3.2 or higher is recommended) must be installed
+            on the system.
+
+            If you need a version for the Python 2.x framework for whatever
+            reason, you can try refactoring the syntax from Python 3.x to
+            version 2.x using the 3to2 (https://pypi.python.org/pypi/3to2)
+            tool.
+
+            However, there is no guarantee that this works properly or at all.
+
+        Additional packages
+
+            Furthermore, you need the 'libmagic' file type identification
+            library. Details can be found here:
+
+                https://pypi.org/project/python-magic
+
+    Usage
+
+        For fundamental documentation as well as some usage examples for each
+        component of the project, you may have a look at the text files inside
+        the included 'docs' sub-directory.
+
+    Contact
+
+        Any suggestions, questions, bugs to report or feedback to give? If so,
+        you can find the contact information inside the 'CONTACT' file.
+
+    Legal information
+
+        The project name is completely fictitious. Any correspondences with
+        existing websites, applications, companies and/or other projects are
+        purely coincidental.
+
+        All trademarks belong to their respective owners.
+
+        Errors and omissions excepted.
+
