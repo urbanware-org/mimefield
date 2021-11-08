@@ -28,7 +28,8 @@ def get_mime_types(directory, extension, mimetype, verbose=False):
 
     if len(files_mismatch) == 0:
         if verbose:
-            __exit(0, "No mismatches found with the given criteria")
+            print("No mismatches found with the given criteria.")
+        sys.exit(0)
 
     if verbose:
         files_mismatch.sort()
@@ -36,16 +37,11 @@ def get_mime_types(directory, extension, mimetype, verbose=False):
             print("  - Type mismatch: '%s'" % mismatch)
 
         if len(files_mismatch) > 1:
-            __exit(1, "Type mismatches found (%s in total), see above" %
-                   len(files_mismatch))
+            print("Type mismatches found (%s in total), see above." %
+                  len(files_mismatch))
         else:
-            __exit(1, "Type mismatch found, see above")
-
-
-def __exit(exit_code, message=""):
-    if message:
-        print(message + ".")
-    sys.exit(exit_code)
+            print("Type mismatch found, see above.")
+    sys.exit(1)
 
 
 def __get_mime_types(directory, extension, mimetype):
