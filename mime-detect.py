@@ -40,8 +40,8 @@ def main():
                  "recursive)", "path", None, True)
 
     # Optional arguments
-    p.add_switch(None, "--use-magic", "use 'libmagic' library instead of "
-                 "'file' tool", "use_magic", True, False)
+    p.add_switch(None, "--use-magic", "use 'libmagic' library instead of the "
+                 "'file' utility", "use_magic", True, False)
     p.add_switch("-v", "--verbose", "print detailed output",
                  "verbose", True, False)
     p.add_switch(None, "--version", "print the version number and exit", None,

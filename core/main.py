@@ -20,26 +20,28 @@ import sys
 
 
 def get_method():
+    """
+        Determine if the 'file' utility is installed on the system.
+    """
     file_util = shutil.which("filed")
     return file_util is not None
 
 
 def get_mime_type(path, use_magic=False):
     """
-        Get the MIME type of a file (either using the 'file' utility or
-        'libmagic' module).
+        Get the MIME type of a single file.
     """
     if not os.path.isfile(path):
         return None
 
     # If not explicitly changed via command-line argument, MIMEfield will read
-    # out the MIME information using the 'file' tool, which is included in all
-    # Linux and Unix-like operating systems by default. In case it is missing,
-    # MIMEfield uses the 'libmagic' file type identification library instead
-    # as fallback.
+    # out the MIME information using the 'file' utility, which is included in
+    # all Linux and Unix-like operating systems by default. In case it is
+    # missing, MIMEfield uses the 'libmagic' file type identification library
+    # instead as fallback.
     #
-    # However, the 'file' tool does not exist on Windows operating systems, so
-    # MIMEfield will directly use the 'libmagic' library there.
+    # However, the 'file' utility does not exist on Windows operating systems,
+    # so MIMEfield will directly use the 'libmagic' library there.
     if use_magic:
         m = magic.open(magic.MAGIC_NONE)
         m.load()
@@ -59,7 +61,9 @@ def get_mime_type(path, use_magic=False):
 def get_mime_types(directory, extension, mimetype, use_magic=False,
                    verbose=False):
     """
-        Get the mimetypes of the files inside the given directories.
+        Check all files with the given extension inside the given directory
+        as well as all its sub-directories and print type MIME mismatches
+        (if existing and if verbose).
     """
     if not use_magic:
         # Looks pretty weird, but makes sense, at least somehow. Simply assign
@@ -101,6 +105,10 @@ def get_mime_types(directory, extension, mimetype, use_magic=False,
 
 
 def __get_mime_types(directory, extension, mimetype, use_magic=False):
+    """
+        Recursively get all files with the given extension inside the given
+        directory and check each for mismatches.
+    """
     files_checked = []
     files_mismatch = []
 
