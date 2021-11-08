@@ -41,7 +41,21 @@ For example, you want to get the information, which MIME type the file `/tmp/som
 ./mime-get.py -p '/tmp/somefile.odt'
 ```
 
-In case the MIME type is correct, it will return the following:
+The script should return one of the following MIME types, depending on the method used.
+
+There are two methods available to get the MIME information.
+
+#### Using the `file` utility
+
+If not explicitly changed via `--use-magic` command-line argument, *MIMEfield* will read out the MIME information using the `file` utility, which is included in all *Linux* and *Unix*-like operating systems by default. In case it is missing, *MIMEfield* uses the *libmagic* file type identification library instead as fallback.
+
+```
+application/vnd.oasis.opendocument.text
+```
+
+#### Using the *libmagic* library
+
+The `file` utility mentioned above does not exist on *Windows* operating systems, so *MIMEfield* will directly use the *libmagic* library there.
 
 ```
 OpenDocument Text
@@ -49,13 +63,23 @@ OpenDocument Text
 
 ### MIME mismatch detection script
 
-Let's assume you want to recursively check the path `/tmp/documents` for files that have the extension `.odt` but the wrong MIME type,
+Let's assume you want to check the path `/tmp/documents` for files that have the extension `.odt` but the wrong MIME type.
+
+This can be done as follows:
 
 ```bash
-./mime-detect.py -p '/tmp/documents' -e 'odt' -m 'OpenDocument Text' -v
+./mime-detect.py -p '/tmp/documents' -e 'odt' -m 'OpenDocument' -v
 ```
 
-When using the verbose argument (`-v` or `--verbose`) as in the example above, the script will return all files with MIME mismatches.
+You can also give multiple MIME type strings, separated with pipes (`|`):
+
+```bash
+./mime-detect.py -p '/tmp/documents' -e 'odt' -m 'OpenDocument Text|opendocument.text' -v
+```
+
+The given directory will always be processed recursively.
+
+When using the verbose argument (`-v` or `--verbose`) as in the examples above, the script will return all files with MIME mismatches.
 
 In any case the script will return exit code `0` if there are no mismatches and `1` otherwise.
 
