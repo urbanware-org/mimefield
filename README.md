@@ -71,7 +71,7 @@ This can be done as follows:
 ./mime-detect.py -p '/tmp/documents' -e 'odt' -m 'OpenDocument' -v
 ```
 
-You can also give multiple MIME type strings, separated with pipes (`|`):
+You can also give multiple MIME type strings, separated with pipes (`|`), so it does not matter which method to read out the MIME information is used:
 
 ```bash
 ./mime-detect.py -p '/tmp/documents' -e 'odt' -m 'OpenDocument Text|opendocument.text' -v
