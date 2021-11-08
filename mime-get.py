@@ -51,13 +51,7 @@ def main():
 
     args = p.parse_args()
     try:
-        if os.path.isfile(args.path):
-            m = magic.open(magic.MAGIC_NONE)
-            m.load()
-            ftype = m.file(args.path)
-            print(ftype)
-        else:
-            p.error("The given path is not a file")
+        print(main.get_mime_type(args.path))
     except FileNotFoundError as e:
         p.error(e)
     except PermissionError as e:
