@@ -11,7 +11,6 @@
 # GitLab: https://gitlab.com/urbanware-org/mimefield
 #
 
-import magic
 import os
 import re
 import shutil
@@ -43,6 +42,10 @@ def get_mime_type(path, use_magic=False):
     # However, the 'file' utility does not exist on Windows operating systems,
     # so MIMEfield will directly use the 'libmagic' library there.
     if use_magic:
+        try:
+            import magic
+        except Exception as e:
+            raise Exception("Required module 'magic' is not installed")
         m = magic.open(magic.MAGIC_NONE)
         m.load()
         ftype = m.file(path)
