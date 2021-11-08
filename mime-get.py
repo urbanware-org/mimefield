@@ -36,7 +36,8 @@ def main():
                  "path", None, True)
 
     # Optional arguments
-
+    p.add_switch(None, "--use-magic", "use 'libmagic' library instead of the "
+                 "'file' utility (if available)", "use_magic", True, False)
     p.add_switch(None, "--version", "print the version number and exit", None,
                  True, False)
 
@@ -51,13 +52,7 @@ def main():
 
     args = p.parse_args()
     try:
-        if os.path.isfile(args.path):
-            m = magic.open(magic.MAGIC_NONE)
-            m.load()
-            ftype = m.file(args.path)
-            print(ftype)
-        else:
-            p.error("The given path is not a file")
+        print(main.get_mime_type(args.path, args.use_magic))
     except FileNotFoundError as e:
         p.error(e)
     except PermissionError as e:
