@@ -13,6 +13,7 @@
 
 import magic
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -84,7 +85,12 @@ def get_mime_types(directory, extension, mimetype, use_magic=False,
     if verbose:
         files_mismatch.sort()
         for mismatch in files_mismatch:
-            print("  - Type mismatch: '%s'" % mismatch)
+            path = mismatch[0]
+            ftype = re.sub(", Title.*$", "", mismatch[1], flags=re.I)
+
+            print("  - Type mismatch found:")
+            print("      - File:   %s" % path)
+            print("      - Type:   %s" % ftype)
 
         if len(files_mismatch) > 1:
             print("Type mismatches found (%s in total), see above." %
