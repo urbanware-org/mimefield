@@ -45,7 +45,7 @@ def get_mime_type(path, use_magic=False):
     if use_magic:
         m = magic.open(magic.MAGIC_NONE)
         m.load()
-        ftype = m.file(path).lower()
+        ftype = m.file(path)
     else:
         p = subprocess.Popen(['file', '--brief', '--mime-type', path],
                              stdout=subprocess.PIPE)
