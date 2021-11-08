@@ -40,6 +40,8 @@ def main():
                  "recursive)", "path", None, True)
 
     # Optional arguments
+    p.add_switch(None, "--use-magic", "use 'libmagic' library instead of "
+                 "'file' tool", "use_magic", True, False)
     p.add_switch("-v", "--verbose", "print detailed output",
                  "verbose", True, False)
     p.add_switch(None, "--version", "print the version number and exit", None,
@@ -57,7 +59,7 @@ def main():
     args = p.parse_args()
     try:
         main.get_mime_types(args.path, args.extension, args.mime,
-                            args.verbose)
+                            args.use_magic, args.verbose)
     except Exception as e:
         p.error(e)
 
