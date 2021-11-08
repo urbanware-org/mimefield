@@ -36,12 +36,13 @@ def main():
     p.add_avalue("-m", "--mime", "MIME type string (or a part of it, case "
                  "insensitive, multiple enclosed with quotes and separated "
                  "with pipes)", "mime", None, True)
-    p.add_avalue("-p", "--path", "path containing the files (always "
-                 "recursive)", "path", None, True)
+    p.add_avalue("-p", "--path", "path of the directory from which to check "
+                 "the files for MIME type mismatches (recursive)", "path",
+                 None, True)
 
     # Optional arguments
     p.add_switch(None, "--use-magic", "use 'libmagic' library instead of the "
-                 "'file' utility", "use_magic", True, False)
+                 "'file' utility (if available)", "use_magic", True, False)
     p.add_switch("-v", "--verbose", "print detailed output",
                  "verbose", True, False)
     p.add_switch(None, "--version", "print the version number and exit", None,

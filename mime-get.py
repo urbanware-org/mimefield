@@ -37,7 +37,7 @@ def main():
 
     # Optional arguments
     p.add_switch(None, "--use-magic", "use 'libmagic' library instead of the "
-                 "'file' utility", "use_magic", True, False)
+                 "'file' utility (if available)", "use_magic", True, False)
     p.add_switch(None, "--version", "print the version number and exit", None,
                  True, False)
 
