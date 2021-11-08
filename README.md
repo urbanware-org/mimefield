@@ -33,21 +33,28 @@ The `mime-detect.py` script checks all files in a path recursively to check if t
 
 ## Usage
 
+There are two methods available to get the MIME information.
+
+If not explicitly changed via `--use-magic` command-line argument, *MIMEfield* will read out the MIME information using the `file` utility, which is included in all *Linux* and *Unix*-like operating systems by default. In case it is missing, *MIMEfield* uses the *libmagic* file type identification library instead as fallback.
+
+However, `file` utility does not exist on *Windows* operating systems, so *MIMEfield* will directly use the *libmagic* library there and so the `--use-magic` command-line argument has no effect at all.
+
 ### MIME determination script
 
 For example, you want to get the information, which MIME type the file `/tmp/somefile.odt` has:
+
+The script should return one of the following MIME types, depending on the method used.
+
+
+#### Using the `file` utility
+
+Running the command
 
 ```bash
 ./mime-get.py -p '/tmp/somefile.odt'
 ```
 
-The script should return one of the following MIME types, depending on the method used.
-
-There are two methods available to get the MIME information.
-
-#### Using the `file` utility
-
-If not explicitly changed via `--use-magic` command-line argument, *MIMEfield* will read out the MIME information using the `file` utility, which is included in all *Linux* and *Unix*-like operating systems by default. In case it is missing, *MIMEfield* uses the *libmagic* file type identification library instead as fallback.
+should return the the following (or similar):
 
 ```
 application/vnd.oasis.opendocument.text
@@ -55,7 +62,13 @@ application/vnd.oasis.opendocument.text
 
 #### Using the *libmagic* library
 
-The `file` utility mentioned above does not exist on *Windows* operating systems, so *MIMEfield* will directly use the *libmagic* library there.
+Running the command
+
+```bash
+./mime-get.py -p '/tmp/somefile.odt' --use-magic
+```
+
+should return the the following (or similar):
 
 ```
 OpenDocument Text
