@@ -37,7 +37,7 @@ There are two methods available to get the MIME information.
 
 If not explicitly changed via `--use-magic` command-line argument, *MIMEfield* will read out the MIME information using the `file` utility, which is included in all *Linux* and *Unix*-like operating systems by default. In case it is missing, *MIMEfield* uses the *libmagic* file type identification library instead as fallback.
 
-However, `file` utility does not exist on *Windows* operating systems, so *MIMEfield* will directly use the *libmagic* library there and so the `--use-magic` command-line argument has no effect at all.
+However, `file` utility does not exist on *Windows* operating systems, so *MIMEfield* will directly use the *libmagic* library there and so the `--use-magic` command-line argument has no effect at all which can be omitted.
 
 ### MIME determination script
 
