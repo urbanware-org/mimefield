@@ -55,15 +55,26 @@ def get_mime_type(path, use_magic=False):
     return ftype
 
 
-def get_mime_types(directory, extension, mimetype, verbose=False):
+def get_mime_types(directory, extension, mimetype, use_magic=False,
+                   verbose=False):
     """
         Get the mimetypes of the files inside the given directories.
     """
+    if not use_magic:
+        # Looks pretty weird, but makes sense, at least somehow. Simply assign
+        # the opposite value from 'get_method()' to 'use_magic'.
+        use_magic is not get_method()
+
     if verbose:
-        print("Detecting MIME types. Please wait.")
+        if use_magic:
+            method = "'libmagic' module"
+        else:
+            method = "'file' utility"
+
+        print("Detecting MIME types via %s. Please wait." % method)
 
     files_checked, files_mismatch = __get_mime_types(directory, extension,
-                                                     mimetype)
+                                                     mimetype, use_magic)
 
     if len(files_mismatch) == 0:
         if verbose:
@@ -83,23 +94,21 @@ def get_mime_types(directory, extension, mimetype, verbose=False):
     sys.exit(1)
 
 
-def __get_mime_types(directory, extension, mimetype):
+def __get_mime_types(directory, extension, mimetype, use_magic=False):
     files_checked = []
     files_mismatch = []
 
     if not extension.startswith("."):
         extension = "." + extension
 
-    m = magic.open(magic.MAGIC_NONE)
-    m.load()
     for root, subdirs, files in os.walk(directory):
         for item in files:
             if not item.endswith(extension):
                 continue
             path = os.path.join(root, item)
 
-            ftype = m.file(path).lower()
-            if not ftype == "empty":
+            ftype = get_mime_type(path, use_magic).lower()
+            if ftype is not None:
                 mismatch = True
                 for mime in mimetype.split("|"):
                     if mime.strip().lower() in ftype:
@@ -107,7 +116,7 @@ def __get_mime_types(directory, extension, mimetype):
                         break
 
                 if mismatch:
-                    files_mismatch.append(path)
+                    files_mismatch.append([path, ftype])
                 else:
                     files_checked.append(path)
 
