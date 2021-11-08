@@ -13,9 +13,9 @@
 
 import magic
 import os
-import sys
 import shutil
 import subprocess
+import sys
 
 
 def get_method():
