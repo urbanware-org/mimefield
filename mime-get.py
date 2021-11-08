@@ -36,7 +36,8 @@ def main():
                  "path", None, True)
 
     # Optional arguments
-
+    p.add_switch(None, "--use-magic", "use 'libmagic' library instead of the "
+                 "'file' utility", "use_magic", True, False)
     p.add_switch(None, "--version", "print the version number and exit", None,
                  True, False)
 
@@ -51,7 +52,7 @@ def main():
 
     args = p.parse_args()
     try:
-        print(main.get_mime_type(args.path))
+        print(main.get_mime_type(args.path, args.use_magic))
     except FileNotFoundError as e:
         p.error(e)
     except PermissionError as e:
