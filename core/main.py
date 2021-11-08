@@ -23,7 +23,7 @@ def get_method():
     """
         Determine if the 'file' utility is installed on the system.
     """
-    file_util = shutil.which("filed")
+    file_util = shutil.which("file")
     return file_util is not None
 
 
