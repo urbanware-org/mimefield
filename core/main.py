@@ -14,6 +14,12 @@
 import magic
 import os
 import sys
+import shutil
+
+
+def get_method():
+    file_util = shutil.which("filed")
+    return file_util is not None
 
 
 def get_mime_types(directory, extension, mimetype, verbose=False):
