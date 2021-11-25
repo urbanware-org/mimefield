@@ -35,9 +35,12 @@ The `mime-detect.py` script checks all files in a path recursively to check if t
 
 There are two methods available to get the MIME information.
 
-If not explicitly changed via `--use-magic` command-line argument, *MIMEfield* will read out the MIME information using the `file` utility, which is included in all (or most) and *Unix*-like operating systems (such as *Linux* and *BSD*) by default. In case it is missing, *MIMEfield* uses the *libmagic* file type identification library instead as fallback.
+*   The `file` utility (on *Unix*-like systems, only)
+*   The *libmagic* module for *Python* (platform independent)
 
-However, `file` utility does not exist on *Windows* operating systems, so *MIMEfield* will directly use the *libmagic* library there and so the `--use-magic` command-line argument has no effect at all which can be omitted.
+In case the both the `file` utility and *libmagic* are installed on the system, the preferred method must be given via `--method` argument. If the utility is missing, *libmagic* is the only supported method to read out the MIME information from a file.
+
+As already mentioned, the `file` utility is only available on *Unix*-like systems (such as *Linux* and *BSD*), so on *Windows* operating systems, the *libmagic* library must be used.
 
 ### MIME determination script
 
