@@ -68,7 +68,6 @@ def get_mime_types(directory, extension, mimetype, use_magic=False,
         as well as all its sub-directories and print type MIME mismatches
         (if existing and if verbose).
     """
-
     if verbose:
         if use_magic:
             method = "'libmagic' module"
