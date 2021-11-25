@@ -34,16 +34,16 @@ def main():
     p.add_avalue("-p", "--path", "path of file to determine the files from",
                  "path", None, True)
 
-    # Optional arguments
+    # Depending arguments
     if main.file_util():
-        # In case the 'file' utility is installed on the system, 'libmagic'
-        # can be used alternatively. Otherwise, 'libmagic' is the only method,
-        # and '--use-magic' is implicitly used, so there is no need for the
-        # command-line argument at all.
-        p.add_switch(None, "--use-magic", "use 'libmagic' library instead of "
-                     "the 'file' utility (if available)", "use_magic", True,
-                     False)
+        # In case the both the 'file' utility and 'libmagic' are installed on
+        # the system, the preferred method must be given. If the utility is
+        # missing, 'libmagic' is the only supported method and is being used
+        # explicitly and the '--method' argument is disabled (does not exist).
+        p.add_predef(None, "--method", "method to get the MIME type",
+                     "method", ["file", "magic"], True)
 
+    # Optional arguments
     p.add_switch(None, "--version", "print the version number and exit", None,
                  True, False)
 
@@ -58,10 +58,11 @@ def main():
 
     args = p.parse_args()
     try:
+        use_magic = True
         if main.file_util():
-            print(main.get_mime_type(args.path, args.use_magic))
-        else:
-            print(main.get_mime_type(args.path, True))
+            if args.method == "file":
+                use_magic = False
+        print(main.get_mime_type(args.path, use_magic))
     except FileNotFoundError as e:
         p.error(e)
     except PermissionError as e:
