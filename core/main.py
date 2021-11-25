@@ -33,14 +33,14 @@ def get_mime_type(path, use_magic=False):
     if not os.path.isfile(path):
         return None
 
-    # If not explicitly changed via command-line argument, MIMEfield will read
-    # out the MIME information using the 'file' utility, which is included in
-    # all (or most) Unix-like operating systems (such as Linux and BSD) by
-    # default. In case it is missing, MIMEfield uses the 'libmagic' file type
-    # identification library instead as fallback.
+    # In case the both the 'file' utility and 'libmagic' are installed on
+    # the system, the preferred method must be given. If the utility is
+    # missing, 'libmagic' is the only supported method to read out the MIME
+    # information from a file.
     #
-    # However, the 'file' utility does not exist on Windows operating systems,
-    # so MIMEfield will directly use the 'libmagic' library there.
+    # The 'file' utility is included in all (or most) Unix-like operating
+    # systems (such as Linux and BSD) by default. However, it does not exist
+    # on Windows operating systems, so the 'libmagic' library is used there.
     if use_magic:
         try:
             import magic
