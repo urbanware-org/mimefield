@@ -38,9 +38,9 @@ There are two methods available to get the MIME information.
 *   The `file` utility (on *Unix*-like systems, only)
 *   The *libmagic* module for *Python* (platform independent)
 
-In case the both the `file` utility and *libmagic* are installed on the system, the preferred method must be given via `--method` argument. If the utility is missing, *libmagic* is the only supported method to read out the MIME information from a file.
+In case the both the `file` utility and *libmagic* are installed on the system, the preferred method must be given using the `--method` argument. As already mentioned above, the `file` utility is only available on *Unix*-like systems (such as *Linux* and *BSD*).
 
-As already mentioned, the `file` utility is only available on *Unix*-like systems (such as *Linux* and *BSD*), so on *Windows* operating systems, the *libmagic* library must be used.
+On *Windows* operating systems the `file` utility is not available, so *libmagic* is the only supported method to read out the MIME information from a file.
 
 ### MIME determination script
 
