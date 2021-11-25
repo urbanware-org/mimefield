@@ -11,7 +11,6 @@
 # GitLab: https://gitlab.com/urbanware-org/mimefield
 #
 
-import magic
 import os
 import sys
 
@@ -36,8 +35,15 @@ def main():
                  "path", None, True)
 
     # Optional arguments
-    p.add_switch(None, "--use-magic", "use 'libmagic' library instead of the "
-                 "'file' utility (if available)", "use_magic", True, False)
+    if main.file_util():
+        # In case the 'file' utility is installed on the system, 'libmagic'
+        # can be used alternatively. Otherwise, 'libmagic' is the only method,
+        # and '--use-magic' is implicitly used, so there is no need for the
+        # command-line argument at all.
+        p.add_switch(None, "--use-magic", "use 'libmagic' library instead of "
+                     "the 'file' utility (if available)", "use_magic", True,
+                     False)
+
     p.add_switch(None, "--version", "print the version number and exit", None,
                  True, False)
 
@@ -52,7 +58,10 @@ def main():
 
     args = p.parse_args()
     try:
-        print(main.get_mime_type(args.path, args.use_magic))
+        if main.file_util():
+            print(main.get_mime_type(args.path, args.use_magic))
+        else:
+            print(main.get_mime_type(args.path, True))
     except FileNotFoundError as e:
         p.error(e)
     except PermissionError as e:
