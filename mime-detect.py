@@ -41,8 +41,14 @@ def main():
                  None, True)
 
     # Optional arguments
-    p.add_switch(None, "--use-magic", "use 'libmagic' library instead of the "
-                 "'file' utility (if available)", "use_magic", True, False)
+    if main.file_util():
+        # In case the 'file' utility is installed on the system, 'libmagic'
+        # can be used alternatively. Otherwise, 'libmagic' is the only method,
+        # and '--use-magic' is implicitly used, so there is no need for the
+        # command-line argument at all.
+        p.add_switch(None, "--use-magic", "use 'libmagic' library instead of "
+                     "the 'file' utility (if available)", "use_magic", True,
+                     False)
     p.add_switch("-v", "--verbose", "print detailed output",
                  "verbose", True, False)
     p.add_switch(None, "--version", "print the version number and exit", None,
@@ -59,8 +65,12 @@ def main():
 
     args = p.parse_args()
     try:
-        main.get_mime_types(args.path, args.extension, args.mime,
-                            args.use_magic, args.verbose)
+        if main.file_util():
+            main.get_mime_types(args.path, args.extension, args.mime,
+                                args.use_magic, args.verbose)
+        else:
+            main.get_mime_types(args.path, args.extension, args.mime, True,
+                                args.verbose)
     except Exception as e:
         p.error(e)
 
