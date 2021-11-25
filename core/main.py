@@ -68,10 +68,6 @@ def get_mime_types(directory, extension, mimetype, use_magic=False,
         as well as all its sub-directories and print type MIME mismatches
         (if existing and if verbose).
     """
-    if not use_magic:
-        # Looks pretty weird, but makes sense, at least somehow. Simply assign
-        # the opposite value from 'get_method()' to 'use_magic'.
-        use_magic is not get_method()
 
     if verbose:
         if use_magic:
