@@ -85,16 +85,25 @@ def get_mime_types(directory, extension, mimetype, use_magic=False,
         sys.exit(0)
 
     if verbose:
+        print()
+        count = 0
         files_mismatch.sort()
         for mismatch in files_mismatch:
+            count += 1
             path = mismatch[0]
             ftype = re.sub(", Title.*$", "", mismatch[1], flags=re.I)
-
-            print("  - Type mismatch found:")
-            print("      - File:   %s" % path)
-            print("      - Type:   %s" % ftype)
-
-        if len(files_mismatch) > 1:
+            if count == 1:
+                print("┌─ Type mismatch:")
+            else:
+                print("├─ Type mismatch:")
+            print("├──── File:   %s" % path)
+            if count == len(files_mismatch):
+                print("└──── Type:   %s" % ftype)
+            else:
+                print("├──── Type:   %s" % ftype)
+                print("│")
+        print()
+        if count > 1:
             print("Type mismatches found (%s in total), see above." %
                   len(files_mismatch))
         else:
