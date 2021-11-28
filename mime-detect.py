@@ -33,7 +33,7 @@ def main():
     # Required arguments
     p.add_avalue("-e", "--extension", "File extension to check the MIME type "
                  "for", "extension", None, True)
-    p.add_avalue("-m", "--mime", "MIME type string (or a part of it, case "
+    p.add_avalue("-t", "--type", "MIME type string (or a part of it, case "
                  "insensitive, multiple enclosed with quotes and separated "
                  "with pipes)", "mime", None, True)
     p.add_avalue("-p", "--path", "path of the directory from which to check "
