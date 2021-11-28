@@ -84,13 +84,13 @@ Let's assume you want to check the path `/tmp/documents` for files that have the
 This can be done as follows:
 
 ```bash
-./mime-detect.py -p '/tmp/documents' -e 'odt' -m 'OpenDocument' -v
+./mime-detect.py -p '/tmp/documents' -e 'odt' -t 'OpenDocument' -v
 ```
 
 You can also give multiple MIME type strings, separated with pipes (`|`), so it does not matter which method to read out the MIME information is used:
 
 ```bash
-./mime-detect.py -p '/tmp/documents' -e 'odt' -m 'OpenDocument Text|opendocument.text' -v
+./mime-detect.py -p '/tmp/documents' -e 'odt' -t 'OpenDocument Text|opendocument.text' -v
 ```
 
 The given directory will always be processed recursively.
