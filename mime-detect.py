@@ -41,7 +41,8 @@ def main():
                  None, True)
 
     # Depending arguments
-    if main.file_util():
+    file_util = main.file_util()
+    if file_util:
         # In case the both the 'file' utility and 'libmagic' are installed on
         # the system, the preferred method must be given. If the utility is
         # missing, 'libmagic' is the only supported method and is being used
@@ -59,6 +60,9 @@ def main():
         p.error("At least one required argument is missing.")
     elif ("-h" in sys.argv) or ("--help" in sys.argv):
         p.print_help()
+        if file_util:
+            print("\nThis system supports both MIME determination methods, " +
+                  "so the '--method' argument is required.")
         sys.exit(0)
     elif "--version" in sys.argv:
         print(common.get_version())
@@ -67,7 +71,7 @@ def main():
     args = p.parse_args()
     try:
         use_magic = True
-        if main.file_util():
+        if file_util:
             if args.method == "file":
                 use_magic = False
         main.get_mime_types(args.path, args.extension, args.mime, use_magic,

@@ -27,15 +27,16 @@ def main():
         sys.exit(1)
 
     p.set_description("Determine MIME type from file.")
-    # p.set_epilog("Further information and usage examples can be found "
-    #             "inside the documentation file for this script.")
+    p.set_epilog("Further information and usage examples can be found "
+                 "inside the documentation file for this script.")
 
     # Required arguments
     p.add_avalue("-p", "--path", "path of file to determine the files from",
                  "path", None, True)
 
     # Depending arguments
-    if main.file_util():
+    file_util = main.file_util()
+    if file_util:
         # In case the both the 'file' utility and 'libmagic' are installed on
         # the system, the preferred method must be given. If the utility is
         # missing, 'libmagic' is the only supported method and is being used
@@ -51,6 +52,9 @@ def main():
         p.error("At least one required argument is missing.")
     elif ("-h" in sys.argv) or ("--help" in sys.argv):
         p.print_help()
+        if file_util:
+            print("\nThis system supports both MIME determination methods, " +
+                  "so the '--method' argument is required.")
         sys.exit(0)
     elif "--version" in sys.argv:
         print(common.get_version())
@@ -59,7 +63,7 @@ def main():
     args = p.parse_args()
     try:
         use_magic = True
-        if main.file_util():
+        if file_util:
             if args.method == "file":
                 use_magic = False
         print(main.get_mime_type(args.path, use_magic))
