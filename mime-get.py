@@ -41,7 +41,7 @@ def main():
         # the system, the preferred method must be given. If the utility is
         # missing, 'libmagic' is the only supported method and is being used
         # explicitly and the '--method' argument is disabled (does not exist).
-        p.add_predef(None, "--method", "method to get the MIME type",
+        p.add_predef("-m", "--method", "method to get the MIME type",
                      "method", ["file", "magic"], True)
 
     # Optional arguments
