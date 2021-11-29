@@ -26,7 +26,7 @@ def file_util():
     return file_util_path is not None
 
 
-def get_mime_type(path, use_magic=False):
+def get_mime_type(path, use_magic=False, ignore_empty=False):
     """
         Get the MIME type of a single file.
     """
@@ -55,14 +55,21 @@ def get_mime_type(path, use_magic=False):
         stdout, stderr = p.communicate()
         ftype = stdout.decode("utf-8").replace("\n", "")
 
-    if ftype == "empty":
-        ftype = ""
+    if ftype == "inode/x-empty" or ftype == "empty" or ftype == "":
+        if ftype == "inode/x-empty":
+            if ignore_empty:
+                ftype = None
+        else:
+            if ignore_empty:
+                ftype = None
+            else:
+                ftype = "(empty)"
 
     return ftype
 
 
 def get_mime_types(directory, extension, mimetype, use_magic=False,
-                   verbose=False):
+                   ignore_empty=False, verbose=False):
     """
         Check all files with the given extension inside the given directory
         as well as all its sub-directories and print type MIME mismatches
@@ -77,7 +84,8 @@ def get_mime_types(directory, extension, mimetype, use_magic=False,
         print("Detecting MIME types via %s. Please wait." % method)
 
     files_checked, files_mismatch = __get_mime_types(directory, extension,
-                                                     mimetype, use_magic)
+                                                     mimetype, use_magic,
+                                                     ignore_empty)
 
     if len(files_mismatch) == 0:
         if verbose:
@@ -111,7 +119,8 @@ def get_mime_types(directory, extension, mimetype, use_magic=False,
     sys.exit(1)
 
 
-def __get_mime_types(directory, extension, mimetype, use_magic=False):
+def __get_mime_types(directory, extension, mimetype, use_magic=False,
+                     ignore_empty=False):
     """
         Recursively get all files with the given extension inside the given
         directory and check each for mismatches.
@@ -128,11 +137,11 @@ def __get_mime_types(directory, extension, mimetype, use_magic=False):
                 continue
             path = os.path.join(root, item)
 
-            ftype = get_mime_type(path, use_magic).lower()
+            ftype = get_mime_type(path, use_magic, ignore_empty)
             if ftype is not None:
                 mismatch = True
                 for mime in mimetype.split("|"):
-                    if mime.strip().lower() in ftype:
+                    if mime.strip().lower() in ftype.lower():
                         mismatch = False
                         break
 

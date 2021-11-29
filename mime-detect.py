@@ -51,6 +51,8 @@ def main():
                      "method", ["file", "magic"], True)
 
     # Optional arguments
+    p.add_switch("-i", "--ignore-empty", "ignore empty files", "ignore_empty",
+                 True, False)
     p.add_switch("-v", "--verbose", "print detailed output",
                  "verbose", True, False)
     p.add_switch(None, "--version", "print the version number and exit", None,
@@ -75,7 +77,7 @@ def main():
             if args.method == "file":
                 use_magic = False
         main.get_mime_types(args.path, args.extension, args.mime, use_magic,
-                            args.verbose)
+                            args.ignore_empty, args.verbose)
     except Exception as e:
         p.error(e)
 
