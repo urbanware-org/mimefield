@@ -51,6 +51,8 @@ def main():
                      "method", ["file", "magic"], True)
 
     # Optional arguments
+    p.add_switch(None, "--cut-off", "cut off output to avoid long lines",
+                 "cut_off", True, False)
     p.add_switch("-i", "--ignore-empty", "ignore empty files", "ignore_empty",
                  True, False)
     p.add_switch("-v", "--verbose", "print detailed output",
@@ -77,7 +79,7 @@ def main():
             if args.method == "file":
                 use_magic = False
         main.get_mime_types(args.path, args.extension, args.mime, use_magic,
-                            args.ignore_empty, args.verbose)
+                            args.ignore_empty, args.cut_off, args.verbose)
     except Exception as e:
         p.error(e)
 
