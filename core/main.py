@@ -69,7 +69,7 @@ def get_mime_type(path, use_magic=False, ignore_empty=False):
 
 
 def get_mime_types(directory, extension, mimetype, use_magic=False,
-                   ignore_empty=False, verbose=False):
+                   ignore_empty=False, cut_off=False, verbose=False):
     """
         Check all files with the given extension inside the given directory
         as well as all its sub-directories and print type MIME mismatches
@@ -100,6 +100,9 @@ def get_mime_types(directory, extension, mimetype, use_magic=False,
             count += 1
             path = mismatch[0]
             ftype = re.sub(", Title.*$", "", mismatch[1], flags=re.I)
+            if cut_off:
+                path = path.replace(directory, "").strip("/").strip("\\")[:64]
+                ftype = ftype.strip("/").strip("\\")[:64]
             if count == 1:
                 print("┌─ Type mismatch:")
             else:
