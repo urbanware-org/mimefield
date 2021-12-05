@@ -38,7 +38,7 @@ There are two methods available to get the MIME information.
 *   The `file` utility (on *Unix*-like systems, only)
 *   The *libmagic* module for *Python* (platform independent)
 
-In case the both the `file` utility and *libmagic* are installed on the system, the preferred method must be given using the `--method` argument. As already mentioned above, the `file` utility is only available on *Unix*-like systems (such as *Linux* and *BSD*).
+In case the both the `file` utility and *libmagic* are installed on the system, the preferred method can be given using the `--method` argument, where `file` is default. As already mentioned above, the `file` utility is only available on *Unix*-like systems (such as *Linux* and *BSD*).
 
 On *Windows* operating systems the `file` utility is not available, so *libmagic* is the only supported method to read out the MIME information from a file.
 
@@ -54,7 +54,7 @@ The script should return one of the following MIME types, depending on the metho
 Running the command
 
 ```bash
-./mime-get.py -p '/tmp/somefile.odt'
+./mime-get.py -p '/tmp/somefile.odt' -m file
 ```
 
 should return the the following (or similar):
@@ -68,7 +68,7 @@ application/vnd.oasis.opendocument.text
 Running the command
 
 ```bash
-./mime-get.py -p '/tmp/somefile.odt' --use-magic
+./mime-get.py -p '/tmp/somefile.odt' -m magic
 ```
 
 should return the the following (or similar):
@@ -81,10 +81,10 @@ OpenDocument Text
 
 Let's assume you want to check the path `/tmp/documents` for files that have the extension `.odt` but the wrong MIME type.
 
-This can be done as follows:
+This can be done as follows (using *libmagic* via `magic` method for example):
 
 ```bash
-./mime-detect.py -p '/tmp/documents' -e 'odt' -t 'OpenDocument' -v
+./mime-detect.py -p '/tmp/documents' -e 'odt' -t 'OpenDocument' -m magic -v
 ```
 
 You can also give multiple MIME type strings, separated with pipes (`|`), so it does not matter which method to read out the MIME information is used:
