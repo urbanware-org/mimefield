@@ -38,64 +38,72 @@ There are two methods available to get the MIME information.
 *   The `file` utility (on *Unix*-like systems, only)
 *   The *libmagic* module for *Python* (platform independent)
 
-In case the both the `file` utility and *libmagic* are installed on the system, the preferred method can be given using the `--method` argument, where `file` is default. As already mentioned above, the `file` utility is only available on *Unix*-like systems (such as *Linux* and *BSD*).
+In case the both the `file` utility and *libmagic* are installed on the system both methods will be used. The preferred method can be also be given using the `--method` (or the short `-m`) argument.
 
-On *Windows* operating systems the `file` utility is not available, so *libmagic* is the only supported method to read out the MIME information from a file.
+As already mentioned above, the `file` utility is only available on *Unix*-like systems (such as *Linux* and *BSD*) so on *Windows* operating systems *libmagic* is the only supported method to read out the MIME information from a file.
 
 ### MIME determination script
 
-For example, you want to get the information, which MIME type the file `/tmp/somefile.odt` has:
+The `mime-get.py` script simply determines the MIME type of a file.
 
-The script should return one of the following MIME types, depending on the method used.
+For example, you want to get the information, which MIME type the included file `mimefield.png` has, you can use the script as follows.
 
+#### Using both methods
+
+If no method was given explicitly, the script will use both methods.
+
+```
+./mime-get.py -p mimefield.png
+```
+
+The script would actually return `image/png|PNG image data|PNG image data`. Due to the fact, that `file` already returned what *libmagic* also does, the duplicate value is omitted. Thus, `image/png|PNG image data` is returned.
 
 #### Using the `file` utility
 
-Running the command
-
-```bash
-./mime-get.py -p '/tmp/somefile.odt' -m file
-```
-
-should return the the following (or similar):
+If the method `file` is explicitly given
 
 ```
-application/vnd.oasis.opendocument.text
+./mime-get.py -p mimefield.png -m file
 ```
+
+the script will return `image/png|PNG image data`.
 
 #### Using the *libmagic* library
 
-Running the command
-
-```bash
-./mime-get.py -p '/tmp/somefile.odt' -m magic
-```
-
-should return the the following (or similar):
+If the method `magic` is explicitly given
 
 ```
-OpenDocument Text
+./mime-get.py -p mimefield.png -m magic
 ```
+
+the script will return `PNG image data`.
 
 ### MIME mismatch detection script
 
 Let's assume you want to check the path `/tmp/documents` for files that have the extension `.odt` but the wrong MIME type.
 
-This can be done as follows (using *libmagic* via `magic` method for example):
+The `mime-get.py` usually returns `application/vnd.oasis.opendocument.text|OpenDocument Text` when using both methods.
+
+In this case, you can just give `opendocument` as type as MIME type string (case-insensitive), as both methods return that information.
+
 
 ```bash
-./mime-detect.py -p '/tmp/documents' -e 'odt' -t 'OpenDocument' -m magic -v
+./mime-detect.py -p '/tmp/documents' -e 'odt' -t 'opendocument'
 ```
 
 You can also give multiple MIME type strings, separated with pipes (`|`), so it does not matter which method to read out the MIME information is used:
 
 ```bash
-./mime-detect.py -p '/tmp/documents' -e 'odt' -t 'OpenDocument Text|opendocument.text' -v
+./mime-detect.py -p '/tmp/documents' -e 'odt' -t 'application/vnd.oasis|opendocument.text'
 ```
 
-The given directory will always be processed recursively.
+Furthermore, it is also possible to explicitly give the method used to detect the MIME types with:
 
-When using the verbose argument (`-v` or `--verbose`) as in the examples above, the script will return all files with MIME mismatches.
+```bash
+./mime-detect.py -p '/tmp/documents' -e 'odt' -t 'application/vnd.oasis|opendocument.text' -m magic
+```
+
+The given directory will always be processed recursively and the script will return all files with MIME mismatches if there are any.
 
 In any case the script will return exit code `0` if there are no mismatches and `1` otherwise.
 
