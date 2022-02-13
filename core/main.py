@@ -111,6 +111,9 @@ def __get_mime_type(path, method, ignore_empty):
     ftype = ""
 
     if method == "both" or method == "file":
+        if not file_util():
+            raise Exception(
+                "The 'file' utility is not available on this system")
         proc = subprocess.Popen(['file', '--brief', '--mime-type', path],
                                 stdout=subprocess.PIPE)
         stdout, stderr = proc.communicate()
