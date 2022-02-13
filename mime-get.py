@@ -31,12 +31,12 @@ def main():
                  "inside the documentation file for this script.")
 
     # Required arguments
-    p.add_avalue("-p", "--path", "path of file to determine the files from",
-                 "path", None, True)
+    p.add_avalue("-p", "--path", "path of file to determine the MIME type "
+                 "from", "path", None, True)
 
     # Optional arguments
-    p.add_predef("-m", "--method", "method to get the MIME type ('file' "
-                 "by default, if exising)",  "method", ["file", "magic"],
+    p.add_predef("-m", "--method", "method to get the MIME type ('file' or "
+                 "'magic', both by default)", "method", ["file", "magic"],
                  False)
     p.add_switch(None, "--version", "print the version number and exit", None,
                  True, False)
@@ -50,22 +50,16 @@ def main():
         print(common.get_version())
         sys.exit(0)
 
-    file_util = main.file_util()
-
     args = p.parse_args()
+    if not args.method:
+        method = "both"
+    else:
+        method = args.method
+
     try:
-        use_magic = True
-        if not args.method or args.method == "file":
-            if file_util:
-                use_magic = False
-            else:
-                raise Exception(
-                    "The 'file' method is not available on this system.")
-        print(main.get_mime_type(args.path, use_magic))
-    except FileNotFoundError as e:
-        p.error(e)
-    except PermissionError as e:
-        p.error(e)
+        if not os.path.isfile(args.path):
+            raise Exception("Path must be a file")
+        print(main.get_mime_type(args.path, None, None, method))
     except Exception as e:
         p.error(e)
 

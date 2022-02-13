@@ -45,8 +45,10 @@ def main():
                  "cut_off", True, False)
     p.add_switch("-i", "--ignore-empty", "ignore empty files", "ignore_empty",
                  True, False)
-    p.add_predef("-m", "--method", "method to get the MIME type ('file' "
-                 "by default, if exising)",  "method", ["file", "magic"],
+    p.add_avalue(None, "--maximum", "maximum number of files to check",
+                 "maximum", 0, False)
+    p.add_predef("-m", "--method", "method to get the MIME type ('file' or "
+                 "'magic', both by default)", "method", ["file", "magic"],
                  False)
     p.add_switch("-v", "--verbose", "print detailed output",
                  "verbose", True, False)
@@ -62,22 +64,17 @@ def main():
         print(common.get_version())
         sys.exit(0)
 
-    file_util = main.file_util()
-
     args = p.parse_args()
-    try:
-        use_magic = True
-        if not args.method or args.method == "file":
-            if file_util:
-                use_magic = False
-            else:
-                raise Exception(
-                    "The 'file' method is not available on this system.")
+    if not args.method:
+        method = "both"
+    else:
+        method = args.method
 
-        main.get_mime_types(args.path, args.extension, args.mime, use_magic,
-                            args.ignore_empty, args.cut_off, args.verbose)
-    except Exception as e:
-        p.error(e)
+    if True: #try:
+        main.get_mime_type(args.path, args.extension, args.mime, method,
+                           args.ignore_empty, args.cut_off, args.maximum)
+    #except Exception as e:
+    #    p.error(e)
 
 
 if __name__ == "__main__":
