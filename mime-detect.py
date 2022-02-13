@@ -50,8 +50,6 @@ def main():
     p.add_predef("-m", "--method", "method to get the MIME type ('file' or "
                  "'magic', both by default)", "method", ["file", "magic"],
                  False)
-    p.add_switch("-v", "--verbose", "print detailed output",
-                 "verbose", True, False)
     p.add_switch(None, "--version", "print the version number and exit", None,
                  True, False)
 
