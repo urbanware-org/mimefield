@@ -4,7 +4,7 @@
 #
 # MIMEfield - MIME type mismatch detection tool
 # MIME determination script
-# Copyright (C) 2022 by Ralf Kilian
+# Copyright (c) 2022 by Ralf Kilian
 # Distributed under the MIT License (https://opensource.org/licenses/MIT)
 #
 # GitHub: https://github.com/urbanware-org/mimefield
