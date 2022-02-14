@@ -20,20 +20,21 @@ The *MIMEfield* project is a simple tool to determine if the extension of a file
 
 In case your operating system identifies files by their extension rather than MIME type, there are problems opening them with the corresponding program. This is the usual behavior of *Windows*.
 
-For example when saving an *OpenDocument* file (`.odt`) with the extension `.zip` (weird and unlike example, but explains it pretty good), double-clicking the file would open the archive tool instead of the corresponding text editor (e.g. *OpenOffice* or *LibreOffice*).
+For example, when saving an *OpenDocument* file (`.odt`) with the extension `.zip` (weird and unlike example, but explains it pretty good), double-clicking the file would open the archive tool instead of the corresponding text editor (e.g. *OpenOffice* or *LibreOffice*).
 
-The *MIMEfield* project consists of two components.
+The *MIMEfield* project determines the file type regardless of the file extension and checks files if the MIME type matches the extension.
 
-With the `mime-get.py` script you can get the MIME type of a file. For example, if you want to know which MIME type a file has. Thus,
-it can be determined which MIME type is the corresponding one for that file extension.
+It consists of two components:
 
-The `mime-detect.py` script checks all files in a path recursively to check if the files with the given extension match the corresponding MIME type.
+*   With the `mime-get.py` script you can simply get the MIME type of a file
+*   The `mime-detect.py` script checks all files with a given extension in a path recursively to check if the extension matches with the corresponding MIME type
+
 
 [Top](#mimefield-)
 
 ## Usage
 
-There are two methods available to get the MIME information.
+There are two methods available to get the MIME information:
 
 *   The `file` utility (on *Unix*-like systems, only)
 *   The *libmagic* module for *Python* (platform independent)
@@ -44,9 +45,9 @@ As already mentioned above, the `file` utility is only available on *Unix*-like 
 
 ### MIME determination script
 
-The `mime-get.py` script simply determines the MIME type of a file.
+The `mime-get.py` script simply determines and returns the MIME type of a file.
 
-For example, you want to get the information, which MIME type the included file `mimefield.png` has, you can use the script as follows.
+For example, you want to get the information which MIME type the included file `mimefield.png` has you can use the script as follows.
 
 #### Using both methods
 
@@ -56,7 +57,7 @@ If no method was given explicitly, the script will use both methods.
 ./mime-get.py -p mimefield.png
 ```
 
-The script would actually return `image/png|PNG image data|PNG image data`. Due to the fact, that `file` already returned what *libmagic* also does, the duplicate value is omitted. Thus, `image/png|PNG image data` is returned.
+The script would actually return `image/png|PNG image data|PNG image data`. Due to the fact, that `file` already returned what *libmagic* also does, the duplicate value is omitted. Due to this, only `image/png|PNG image data` is returned.
 
 #### Using the `file` utility
 
@@ -86,7 +87,6 @@ The `mime-get.py` usually returns `application/vnd.oasis.opendocument.text|OpenD
 
 In this case, you can just give `opendocument` as type as MIME type string (case-insensitive), as both methods return that information.
 
-
 ```bash
 ./mime-detect.py -p '/tmp/documents' -e 'odt' -t 'opendocument'
 ```
@@ -97,15 +97,15 @@ You can also give multiple MIME type strings, separated with pipes (`|`), so it 
 ./mime-detect.py -p '/tmp/documents' -e 'odt' -t 'application/vnd.oasis|opendocument.text'
 ```
 
-Furthermore, it is also possible to explicitly give the method used to detect the MIME types with:
+Furthermore, it is also possible to explicitly give the method used to detect the MIME type mismatches with:
 
 ```bash
 ./mime-detect.py -p '/tmp/documents' -e 'odt' -t 'application/vnd.oasis|opendocument.text' -m magic
 ```
 
-The given directory will always be processed recursively and the script will return all files with MIME mismatches if there are any.
+The given directory will always be processed recursively and the script will return all files with mismatches if there are any.
 
-In any case the script will return exit code `0` if there are no mismatches and `1` otherwise.
+In case there are no mismatches the script will return exit code `0` and `1` otherwise.
 
 [Top](#mimefield-)
 
