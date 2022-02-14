@@ -68,11 +68,11 @@ def main():
     else:
         method = args.method
 
-    if True: #try:
+    try:
         main.get_mime_type(args.path, args.extension, args.mime, method,
                            args.ignore_empty, args.cut_off, args.maximum)
-    #except Exception as e:
-    #    p.error(e)
+    except Exception as e:
+        p.error(e)
 
 
 if __name__ == "__main__":
