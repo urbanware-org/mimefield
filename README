@@ -25,25 +25,18 @@ README (MIMEfield)
 
     Requirements
 
-        Python framework
+        In order to run the latest version of MIMEfield, the Python 3.x
+        framework (version 3.2 or higher is recommended) must be installed
+        on the system as well as the 'python-magic' module:
 
-            In order to run the latest version of MIMEfield, the Python 3.x
-            framework (version 3.2 or higher is recommended) must be installed
-            on the system.
+            https://pypi.org/project/python-magic
 
-            If you need a version for the Python 2.x framework for whatever
-            reason, you can try refactoring the syntax from Python 3.x to
-            version 2.x using the 3to2 (https://pypi.python.org/pypi/3to2)
-            tool.
+        If you need a version for the Python 2.x framework for whatever
+        reason, you can try refactoring the syntax from Python 3.x to
+        version 2.x using the 3to2 (https://pypi.python.org/pypi/3to2)
+        tool.
 
-            However, there is no guarantee that this works properly or at all.
-
-        Additional packages
-
-            Furthermore, you need the 'libmagic' file type identification
-            library. Details can be found here:
-
-                https://pypi.org/project/python-magic
+        However, there is no guarantee that this works properly or at all.
 
     Usage
 
