@@ -12,6 +12,7 @@
 #
 
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -20,6 +21,7 @@ try:
     import magic
 except:
     pass
+
 
 def file_util():
     """
@@ -44,8 +46,7 @@ def get_mime_type(path, extension, mimetype, method, ignore_empty=False,
     if os.path.isfile(path):
         return __get_mime_type(path, method, ignore_empty=False)
 
-    while "|" * 2 in mimetype:
-        mimetype = mimetype.replace("|" * 2, "|").strip("|")
+    mimetype = re.sub(r'\|+', '|', mimetype).strip('|')
 
     files_checked, files_mismatch = __get_mime_types(path, extension,
                                                      mimetype, method,
