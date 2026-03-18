@@ -43,6 +43,9 @@ def get_mime_type(path, extension, mimetype, method, ignore_empty=False,
     except ValueError:
         maximum = 0
 
+    if not method:
+        method = "both"
+
     if not os.path.isdir(path):
         raise NotADirectoryError("The given path is not a directory")
 

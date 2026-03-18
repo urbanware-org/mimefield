@@ -52,15 +52,10 @@ def main():
         sys.exit(0)
 
     args = p.parse_args()
-    if not args.method:
-        method = "both"
-    else:
-        method = args.method
-
     try:
         if not os.path.isfile(args.path):
             raise Exception("Path must be a file")
-        print(main.get_mime_type(args.path, None, None, method))
+        print(main.get_mime_type(args.path, None, None, args.method))
     except Exception as e:
         p.error(e)
 
