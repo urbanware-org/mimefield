@@ -55,7 +55,7 @@ def get_mime_type(path, extension, mimetype, method, ignore_empty=False,
                                                      ignore_empty,
                                                      maximum)
 
-    if not maximum == 0 and len(files_checked) >= maximum:
+    if maximum != 0 and len(files_checked) >= maximum:
         print("No mismatches found with the given criteria (limited to "
               "%s items)." % str(maximum))
         sys.exit(0)
