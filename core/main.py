@@ -28,6 +28,7 @@ def file_util():
         Determine if the 'file' utility is installed on the system.
     """
     file_util_path = shutil.which("file")
+
     return file_util_path is not None
 
 
