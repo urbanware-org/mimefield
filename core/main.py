@@ -57,8 +57,8 @@ def get_mime_type(path, extension, mimetype, method, ignore_empty=False,
                                                      maximum)
 
     if maximum != 0 and len(files_checked) >= maximum:
-        print("No mismatches found with the given criteria (limited to "
-              "%s items)." % str(maximum))
+        print(f"No mismatches found with the given criteria (limited to "
+              f"{maximum} items).")
         sys.exit(0)
     if len(files_mismatch) == 0:
         print("No mismatches found with the given criteria.")
@@ -79,26 +79,26 @@ def get_mime_type(path, extension, mimetype, method, ignore_empty=False,
             print("┌─ Type mismatch:")
         else:
             print("├─ Type mismatch:")
-        print("├──── File:   %s" % file_path)
+        print(f"├──── File:   {file_path}")
         if count == len(files_mismatch):
-            print("└──── Type:   %s" % ftype)
+            print(f"└──── Type:   {ftype}")
         else:
-            print("├──── Type:   %s" % ftype)
+            print(f"├──── Type:   {ftype}")
             print("│")
     print()
 
     if count > 1:
+        mismatches = len(files_mismatch)
         if maximum == 0:
-            print("Type mismatches found (%s in total), see above."
-                  % len(files_mismatch))
+            print(
+                f"Type mismatches found ({mismatches} in total), see above.")
         else:
-            if len(files_mismatch) > maximum:
-                print("Type mismatches found (%s in total, limited to %s "
-                      "items), see above." % (len(files_mismatch),
-                                              str(maximum)))
+            if mismatches > maximum:
+                print(f"Type mismatches found ({mismatches} in total, "
+                      f"limited to {maximum} items), see above.")
             else:
-                print("Type mismatches found (%s in total), see above." %
-                      len(files_mismatch))
+                print(f"Type mismatches found ({mismatches} in total), "
+                      f"see above.")
     else:
         print("Type mismatch found, see above.")
     sys.exit(1)
