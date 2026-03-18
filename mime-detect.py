@@ -64,13 +64,8 @@ def main():
         sys.exit(0)
 
     args = p.parse_args()
-    if not args.method:
-        method = "both"
-    else:
-        method = args.method
-
     try:
-        main.get_mime_type(args.path, args.extension, args.mime, method,
+        main.get_mime_type(args.path, args.extension, args.mime, args.method,
                            args.ignore_empty, args.cut_off, args.maximum)
     except Exception as e:
         p.error(e)
