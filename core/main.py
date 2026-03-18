@@ -40,7 +40,7 @@ def get_mime_type(path, extension, mimetype, method, ignore_empty=False,
 
     try:
         maximum = int(maximum)
-    except:
+    except ValueError:
         maximum = 0
 
     if not os.path.isdir(path):
@@ -112,7 +112,7 @@ def __get_mime_type(path, method, ignore_empty):
 
     if method == "both" or method == "file":
         if not file_util():
-            raise Exception(
+            raise EnvironmentError(
                 "The 'file' utility is not available on this system")
         proc = subprocess.Popen(['file', '--brief', '--mime-type', path],
                                 stdout=subprocess.PIPE)
