@@ -197,5 +197,3 @@ def __get_mime_types(path, extension, mimetype, method, ignore_empty,
             break
 
     return files_checked, files_mismatch
-
-# EOF

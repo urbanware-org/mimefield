@@ -19,5 +19,3 @@ def get_version():
         Return the version of this module.
     """
     return __version__
-
-# EOF
