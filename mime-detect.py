@@ -23,7 +23,8 @@ def main():
     try:
         p = clap.Parser()
     except Exception as e:
-        print("%s: error: %s" % (os.path.basename(sys.argv[0]), e))
+        bsname = os.path.basename(sys.argv[0])
+        print(f"{bsname}: error: {e}")
         sys.exit(1)
 
     p.set_description("Detect MIME type mismatches.")
