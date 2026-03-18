@@ -19,8 +19,8 @@ import sys
 
 try:
     import magic
-except:
-    pass
+except ImportError:
+    magic = None
 
 
 def file_util():
@@ -125,11 +125,10 @@ def __get_mime_type(path, method, ignore_empty):
         ftype += "|" + stdout.decode("utf-8").replace("\n", "").split(",")[0]
 
     if method == "both" or method == "magic":
-        try:
-            m = magic.open(magic.MAGIC_NONE)
-        except:
-            raise Exception(
+        if magic is None:
+            raise ImportError(
                 "The Python module 'magic' does not seem to be installed")
+        m = magic.open(magic.MAGIC_NONE)
         m.load()
         if m.file(path) is not None:
             output = m.file(path).split(",")[0]
