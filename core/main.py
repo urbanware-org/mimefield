@@ -43,11 +43,10 @@ def get_mime_type(path, extension, mimetype, method, ignore_empty=False,
     except:
         maximum = 0
 
-    if os.path.isfile(path):
-        return __get_mime_type(path, method, ignore_empty=False)
+    if not os.path.isdir(path):
+        raise NotADirectoryError("The given path is not a directory")
 
     mimetype = re.sub(r'\|+', '|', mimetype).strip('|')
-
     files_checked, files_mismatch = __get_mime_types(path, extension,
                                                      mimetype, method,
                                                      ignore_empty,
