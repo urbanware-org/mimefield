@@ -3,17 +3,18 @@
 
 #
 # PaVal - Parameter validation module
-# Copyright (c) 2025 by Ralf Kilian
+# Copyright (c) 2026 by Ralf Kilian
 # Distributed under the MIT License (https://opensource.org/licenses/MIT)
 #
 # GitHub: https://github.com/urbanware-org/paval
 # GitLab: https://gitlab.com/urbanware-org/paval
 #
 
-__version__ = "1.3.1"
+__version__ = "1.4.0"
 
 import filecmp
 import os
+import re
 
 
 def compfile(file_path, name="", list_files=None):
@@ -72,17 +73,16 @@ def get_version():
     return __version__
 
 
-def intrange(value, name="", value_min=None, value_max=None, zero=False):
+def intrange(value, name="", value_min=None, value_max=None, zero=False,
+             strict=False):
     """
         Validate an integer range.
     """
-    value = __integer(value, f"{name} value", False)
-    if value_min is not None:
-        value_min = __integer(value_min, f"minimal {name} value", True)
-        intvalue(value_min, name, True, True, True)
-    if value_max is not None:
-        value_max = __integer(value_max, f"maximal {name} value", True)
-        intvalue(value_max, name, True, True, True)
+    value = __integer(value, f"{name} value", False, strict)
+
+    value_min = intvalue(value_min, name, True, True, True, strict)
+    value_max = intvalue(value_max, name, True, True, True, strict)
+
     if not zero:
         if value == 0:
             __ex(f"The {name} value must not be zero.", False, ValueError)
@@ -109,11 +109,12 @@ def intrange(value, name="", value_min=None, value_max=None, zero=False):
                 False, ValueError)
 
 
-def intvalue(value, name="", positive=True, zero=False, negative=False):
+def intvalue(value, name="", positive=True, zero=False, negative=False,
+             strict=False):
     """
         Validate a single integer value.
     """
-    value = __integer(value, f"{name} value", False)
+    value = __integer(value, f"{name} value", False, strict)
     if not positive:
         if value > 0:
             __ex(f"The {name} value must not be positive.", False,
@@ -124,6 +125,8 @@ def intvalue(value, name="", positive=True, zero=False, negative=False):
     if not negative:
         if value < 0:
             __ex(f"The {name} value must not be negative.", False, ValueError)
+
+    return int(value)
 
 
 def path(pathname, name="", is_file=False, exists=False):
@@ -139,16 +142,16 @@ def path(pathname, name="", is_file=False, exists=False):
         path_type = "directory"
     if exists:
         if not os.path.exists(pathname):
-            __ex(f"The given {name} {path_type} does not exist.", False,
+            __ex(f"The {name} {path_type} does not exist.", False,
                  FileNotFoundError)
         if (is_file and not os.path.isfile(pathname)) or \
            (not is_file and not os.path.isdir(pathname)):
             __ex(
-                f"The given {name} {path_type} path is not a {path_type}.",
+                f"The {name} {path_type} path is not a {path_type}.",
                 False)
     else:
         if os.path.exists(pathname):
-            __ex(f"The given {name} {path_type} path already exists.", False,
+            __ex(f"The {name} {path_type} path already exists.", False,
                  FileExistsError)
 
 
@@ -204,26 +207,34 @@ def string(input_string, name="", wildcards=False, invalid_chars=None):
                      f"({quotes}{char}{quotes}).", False, ValueError)
 
 
-def __ex(exception_string, internal=False, exception_type=TypeError):
+def __ex(exception_string, internal=False, exception_type=ValueError):
     """
         Internal method to raise an exception.
     """
-    ex = str(exception_string).strip()
-    while " " * 2 in ex:
-        ex = ex.replace((" " * 2), " ")
+    ex = re.sub(r"\s+", " ", str(exception_string).strip())
     if internal:
         ex = "PaVal: " + ex
     raise exception_type(ex)
 
 
-def __integer(value, name="", internal=False):
+def __integer(value, name="", internal=False, strict=False):
     """
         Internal method for basic integer validation.
     """
-    if not isinstance(value, int):
-        __ex(f"The {name} must be an integer.", internal, TypeError)
+    if strict:
+        if not isinstance(value, int):
+            __ex(f"The {name} must be an integer.", internal, TypeError)
+    else:
+        try:
+            return int(value)
+        except TypeError:
+            __ex(f"The {name} must be of a type that is convertible to "
+                 "integer.", internal, TypeError)
+        except ValueError:
+            __ex(f"The {name} must contain a valid integer value.", internal,
+                 ValueError)
 
-    return value
+    return int(value)
 
 
 def __string(input_string, name="", internal=False):
