@@ -25,24 +25,32 @@ README (MIMEfield)
 
     Requirements
 
-        In order to run the latest version of MIMEfield, the Python 3.x
-        framework (version 3.2 or higher is recommended) must be installed
-        on the system as well as the 'python-magic' module:
+        Python framework
 
-            https://pypi.org/project/python-magic
+            In order to run the latest version of MIMEfield, Python 3.6 or
+            higher must be installed as well as the 'python-magic' module
+            which can be found here:
 
-        If you need a version for the Python 2.x framework for whatever
-        reason, you can try refactoring the syntax from Python 3.x to
-        version 2.x using the 3to2 (https://pypi.python.org/pypi/3to2)
-        tool.
+                https://pypi.org/project/python-magic/
 
-        However, there is no guarantee that this works properly or at all.
+        Packages
+
+            If you are running MIMEfield on Windows, the 'libmagic' file type
+            identification library is mandatory. Details can be found here:
+
+                https://pypi.org/project/python-magic
+
+            On Unix-like operating systems (such as Linux and BSD) the 'file'
+            tool is available for file type determination (as described in the
+            man page), so the 'python-magic' module is not required, but is
+            useful for additional identification purposes, as the output of
+            them may differ.
 
     Usage
 
         For fundamental documentation as well as some usage examples for each
-        component of the project, you may have a look at the text files inside
-        the included 'docs' sub-directory.
+        component of the project, please take a look at the GitHub page of
+        MIMEfield as there are no documentation files included, yet.
 
     Contact
 
