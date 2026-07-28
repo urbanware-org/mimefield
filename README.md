@@ -115,7 +115,7 @@ In case there are no mismatches the script will return exit code `0` and `1` oth
 
 ### *Python* framework
 
-In order to run the latest version the *MIMEfield* project, *Python* 3.6 or higher must be installed as well as the *[python-magic](https://pypi.org/project/python-magic/)* module.
+In order to run the latest version of the *MIMEfield* project, *Python* 3.6 or higher must be installed as well as the *[python-magic](https://pypi.org/project/python-magic/)* module.
 
 ### Packages
 
