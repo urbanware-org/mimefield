@@ -29,19 +29,16 @@ It consists of two components:
 *   With the `mime-get.py` script you can simply get the MIME type of a file
 *   The `mime-detect.py` script checks all files with a given extension in a path recursively to check if the extension matches with the corresponding MIME type
 
-
 [Top](#mimefield-)
 
 ## Usage
 
 There are two methods available to get the MIME information:
 
-*   The `file` utility (on *Unix*-like systems, only)
-*   The *libmagic* module for *Python* (platform independent)
+*   The `file` utility
+*   The *libmagic* module for *Python*
 
-In case the both the `file` utility and *libmagic* are installed on the system both methods will be used. The preferred method can be also be given using the `--method` (or the short `-m`) argument.
-
-As already mentioned above, the `file` utility is only available on *Unix*-like systems (such as *Linux* and *BSD*) so on *Windows* operating systems *libmagic* is the only supported method to read out the MIME information from a file.
+In case the both the `file` utility and *libmagic* are installed on the system both methods will be used, which is recommended as their output may differ. The preferred method can be also be given using the `--method` (or the short `-m`) argument.
 
 ### MIME determination script
 
@@ -113,15 +110,18 @@ In case there are no mismatches the script will return exit code `0` and `1` oth
 
 ## Requirements
 
+> [!NOTE]
+> This project uses *[python-magic](https://pypi.org/project/python-magic/)*, which relies on *libmagic* and is not natively supported on *Windows*.
+>
+> There are alternatives and workarounds, but they do not provide the same implementation or behavior as *python-magic* with *libmagic*. Due to this, *MIMEfield* does not work on *Windows*.
+
 ### *Python* framework
 
-In order to run the latest version of the *MIMEfield* project, *Python* 3.6 or higher must be installed as well as the *[python-magic](https://pypi.org/project/python-magic/)* module.
+In order to run the latest version of the *MIMEfield* project, *Python* 3.6 or higher must be installed.
 
 ### Packages
 
-If you are running *MIMEfield* on *Windows*, the *libmagic* file type identification library is mandatory. Details can be found [here](https://pypi.org/project/python-magic).
-
-On *Unix*-like operating systems (such as *Linux* and *BSD*) the `file` tool is available for file type determination (as described in the man page), so the *[python-magic](https://pypi.org/project/python-magic/)* module is not required, but is useful for additional identification purposes, as the output of them may differ.
+The *[python-magic](https://pypi.org/project/python-magic/)* module is not required, but is useful for additional identification purposes.
 
 [Top](#mimefield-)
 
