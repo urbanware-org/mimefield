@@ -26,17 +26,14 @@ The *MIMEfield* project determines the file type regardless of the file extensio
 
 It consists of two components:
 
-*   With the `mime-get.py` script you can simply get the MIME type of a file
-*   The `mime-detect.py` script checks all files with a given extension in a path recursively to check if the extension matches with the corresponding MIME type
+*   `mime-get.py` to simply get the MIME type of a file
+*   `mime-detect.py` to check all files with a given extension in a path recursively if the extension matches with the corresponding MIME type
 
 [Top](#mimefield-)
 
 ## Usage
 
-There are two methods available to get the MIME information:
-
-*   The `file` utility
-*   The *libmagic* module for *Python*
+You can get the MIME information either using the `file` utility or the *libmagic* module for *Python*.
 
 In case the both the `file` utility and *libmagic* are installed on the system both methods will be used, which is recommended as their output may differ. The preferred method can be also be given using the `--method` (or the short `-m`) argument.
 
