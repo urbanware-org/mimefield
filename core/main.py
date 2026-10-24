@@ -79,11 +79,13 @@ def get_mime_type(path, extension, mimetype, method, ignore_empty=False,
             print("┌─ Type mismatch:")
         else:
             print("├─ Type mismatch:")
-        print(f"├──── File:   {file_path}")
+        print(f"├──── File name:      {file_path}")
         if count == len(files_mismatch):
-            print(f"└──── Type:   {ftype}")
+            print(f"├──── Expected type:  {mimetype}")
+            print(f"└──── Detected type:  {ftype}")
         else:
-            print(f"├──── Type:   {ftype}")
+            print(f"├──── Expected type:  {mimetype}")
+            print(f"├──── Detected type:  {ftype}")
             print("│")
     print()
 
