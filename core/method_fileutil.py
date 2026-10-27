@@ -20,9 +20,4 @@ def get_mime_type(file_path):
     stdout, _ = proc.communicate()
     mtype = stdout.decode("utf-8").replace("\n", "")
 
-    proc = subprocess.Popen(['file', '--brief', path],
-                            stdout=subprocess.PIPE)
-    stdout, _ = proc.communicate()
-    mtype += "|" + stdout.decode("utf-8").replace("\n", "").split(",")[0]
-
     return mtype
