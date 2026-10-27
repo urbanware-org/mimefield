@@ -10,3 +10,19 @@
 # GitHub: https://github.com/urbanware-org/mimefield
 # GitLab: https://gitlab.com/urbanware-org/mimefield
 #
+
+import subprocess
+
+
+def get_mime_type(file_path):
+    proc = subprocess.Popen(['file', '--brief', '--mime-type', file_path],
+                            stdout=subprocess.PIPE)
+    stdout, _ = proc.communicate()
+    mtype = stdout.decode("utf-8").replace("\n", "")
+
+    proc = subprocess.Popen(['file', '--brief', path],
+                            stdout=subprocess.PIPE)
+    stdout, _ = proc.communicate()
+    mtype += "|" + stdout.decode("utf-8").replace("\n", "").split(",")[0]
+
+    return mtype
