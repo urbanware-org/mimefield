@@ -26,60 +26,56 @@ The *MIMEfield* project determines the file type regardless of the file extensio
 
 It consists of two components:
 
-*   With the `mime-get.py` script you can simply get the MIME type of a file
-*   The `mime-detect.py` script checks all files with a given extension in a path recursively to check if the extension matches with the corresponding MIME type
-
+*   `mime-get.py` to simply get the MIME type of a file
+*   `mime-detect.py` to check all files with a given extension in a path recursively if the extension matches with the corresponding MIME type
 
 [Top](#mimefield-)
 
 ## Usage
 
-There are two methods available to get the MIME information:
+You can get the MIME information either using the `file` utility or the *libmagic* module for *Python*.
 
-*   The `file` utility (on *Unix*-like systems, only)
-*   The *libmagic* module for *Python* (platform independent)
-
-In case the both the `file` utility and *libmagic* are installed on the system both methods will be used. The preferred method can be also be given using the `--method` (or the short `-m`) argument.
-
-As already mentioned above, the `file` utility is only available on *Unix*-like systems (such as *Linux* and *BSD*) so on *Windows* operating systems *libmagic* is the only supported method to read out the MIME information from a file.
+In case the both the `file` utility and *libmagic* are installed on the system both methods will be used, which is recommended as their output may differ. The preferred method can be also be given using the `--method` (or the short `-m`) argument.
 
 ### MIME determination script
 
 The `mime-get.py` script simply determines and returns the MIME type of a file.
 
-For example, you want to get the information which MIME type the included file `mimefield.png` has you can use the script as follows.
+For example, you want to get the information which MIME type the included file `mimefield.png` has, you can use the script as follows.
 
 #### Using both methods
 
 If no method was given explicitly, the script will use both methods.
 
-```
+```bash
 ./mime-get.py -p mimefield.png
 ```
 
 The script would actually return `image/png|PNG image data|PNG image data`. Due to the fact, that `file` already returned what *libmagic* also does, the duplicate value is omitted. Due to this, only `image/png|PNG image data` is returned.
 
-#### Using the `file` utility
+#### Using only the `file` utility
 
 If the method `file` is explicitly given
 
-```
+```bash
 ./mime-get.py -p mimefield.png -m file
 ```
 
 the script will return `image/png|PNG image data`.
 
-#### Using the *libmagic* library
+#### Using only the *libmagic* library
 
 If the method `magic` is explicitly given
 
-```
+```bash
 ./mime-get.py -p mimefield.png -m magic
 ```
 
 the script will return `PNG image data`.
 
 ### MIME mismatch detection script
+
+The `mime-detect.py` script recursively scans the given directory for all files with the specified extension, determines their MIME type and checks whether it matches the MIME type information provided by the user.
 
 Let's assume you want to check the path `/tmp/documents` for files that have the extension `.odt` but the wrong MIME type.
 
@@ -97,13 +93,13 @@ You can also give multiple MIME type strings, separated with pipes (`|`), so it 
 ./mime-detect.py -p '/tmp/documents' -e 'odt' -t 'application/vnd.oasis|opendocument.text'
 ```
 
-Furthermore, it is also possible to explicitly give the method used to detect the MIME type mismatches with:
+Furthermore, it is also possible to explicitly give the method used to detect the MIME type mismatches with. For example, explicitly using *libmagic*:
 
 ```bash
 ./mime-detect.py -p '/tmp/documents' -e 'odt' -t 'application/vnd.oasis|opendocument.text' -m magic
 ```
 
-The given directory will always be processed recursively and the script will return all files with mismatches if there are any.
+As mentioned above, the given directory will always be processed recursively and the script will return all files with mismatches if there are any.
 
 In case there are no mismatches the script will return exit code `0` and `1` otherwise.
 
@@ -111,19 +107,18 @@ In case there are no mismatches the script will return exit code `0` and `1` oth
 
 ## Requirements
 
+> [!NOTE]
+> This project uses *[python-magic](https://pypi.org/project/python-magic/)*, which relies on *libmagic* and is not natively supported on *Windows*.
+>
+> There are alternatives and workarounds, but they do not provide the same implementation or behavior as *python-magic* with *libmagic*. Due to this, *MIMEfield* does not work on *Windows*.
+
 ### *Python* framework
 
-In order to run the latest version of *MIMEfield*, the *Python* 3.x framework (version 3.2 or higher is recommended) must be installed on the system as well as the *[python-magic](https://pypi.org/project/python-magic/)* module.
-
-If you need a version for the *Python* 2.x framework for whatever reason, you can try refactoring the syntax from *Python* 3.x to version 2.x using the *[3to2](https://pypi.python.org/pypi/3to2)* tool.
-
-However, there is no guarantee that this works properly or at all.
+In order to run the latest version of the *MIMEfield* project, *Python* 3.6 or higher must be installed.
 
 ### Packages
 
-If you are running *Windows*, the *libmagic* file type identification library is mandatory. Details can be found [here](https://pypi.org/project/python-magic).
-
-On *Unix*-like operating systems (such as *Linux* and *BSD*) the library is not required, but can be used as fallback.
+The *[python-magic](https://pypi.org/project/python-magic/)* module is not required, but is useful for additional identification purposes.
 
 [Top](#mimefield-)
 
@@ -137,6 +132,6 @@ You can contact me by sending an email to [dev@urbanware.org](mailto:dev@urbanwa
 
 ## Useless facts
 
-*   The project name *MIMEfield* is an allusion to "mine field".
+*   The project name *MIMEfield* is an allusion on the word "minefield" (as a minefield contains hidden dangers, incorrect or misleading MIME types can cause unexpected problems).
 
 [Top](#mimefield-)
